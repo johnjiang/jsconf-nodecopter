@@ -1,4 +1,6 @@
 const readline = require('readline');
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -14,8 +16,7 @@ const init = (drone, altitude = 2.0) => {
     if (key.ctrl && key.name === 'c') {
       process.exit();
     } else {
-
-      switch (str) {
+      switch (key.name) {
         case 's':
         case 'j':
           back();
@@ -26,7 +27,7 @@ const init = (drone, altitude = 2.0) => {
           break;
         case 'a':
         case 'h':
-          if (key.ctrl) {
+          if (key.shift) {
             flipLeft();
           } else {
             left();
@@ -34,7 +35,7 @@ const init = (drone, altitude = 2.0) => {
           break;
         case 'd':
         case 'l':
-          if (key.ctrl) {
+          if (key.shift) {
             flipRight();
           } else {
             right();
@@ -49,18 +50,22 @@ const init = (drone, altitude = 2.0) => {
 
 function left() {
   client.left(SPEED);
+  client.stop();
 }
 
 function right() {
   client.right(SPEED);
+  client.stop();
 }
 
 function front() {
   client.front(SPEED);
+  client.stop();
 }
 
 function back() {
   client.back(SPEED);
+  client.stop();
 }
 
 function flipLeft() {
