@@ -1,7 +1,9 @@
 const readline = require('readline');
-readline.emitKeypressEvents(process.stdin);
-process.stdin.setRawMode(true);
 
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 let client;
 const SPEED = 0.1;
@@ -13,30 +15,65 @@ const init = (drone, altitude = 2.0) => {
       process.exit();
     } else {
 
-      switch(str) {
+      switch (str) {
+        case 's':
         case 'j':
           back();
           break;
+        case 'w':
         case 'k':
           front();
           break;
+        case 'a':
         case 'h':
-          left();
+          if (key.ctrl) {
+            flipLeft();
+          } else {
+            left();
+          }
           break;
+        case 'd':
         case 'l':
-          right();
+          if (key.ctrl) {
+            flipRight();
+          } else {
+            right();
+          }
           break;
         case 'q':
           rl.close();
       }
     }
   });
+};
+
+function left() {
+  client.left(SPEED);
 }
 
-function left() { client.left(SPEED); }
-function right() { client.right(SPEED); }
-function front() { client.front(SPEED); }
-function back() { client.back(SPEED); }
+function right() {
+  client.right(SPEED);
+}
+
+function front() {
+  client.front(SPEED);
+}
+
+function back() {
+  client.back(SPEED);
+}
+
+function flipLeft() {
+  flip("Left");
+}
+
+function flipRight() {
+  flip("Right");
+}
+
+function flip(direction) {
+  client.animate(`flip${direction}`, 15);
+}
 
 
 // ==========================================
@@ -45,6 +82,6 @@ const ctrl = {
   left,
   right,
   back,
-}
+};
 
 module.exports = ctrl;
