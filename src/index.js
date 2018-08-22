@@ -1,7 +1,9 @@
 const arDrone = require("ar-drone");
 const fs = require("fs");
 const altCtrl = require('./altitude-ctrl');
+const dirCtrl = require('./direction-ctrl');
 
+/*
 const client = arDrone.createClient({
   frameRate: 2,
 });
@@ -20,12 +22,18 @@ function savePhoto(imageData) {
     console.log("File saved.");
   });
 }
+*/
+
+altCtrl.init(client);
+dirCtrl.init(client);
 
 client.takeoff();
 altCtrl.init(client);
 
+/*
 client
   .after(5000, function() {
     this.stop();
     this.land();
   });
+*/
