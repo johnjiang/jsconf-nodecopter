@@ -50,7 +50,8 @@ const init = (drone, altitude = 2.0) => {
           }
           break;
         case 'q':
-          rl.close();
+          client.stop();
+          client.land();
       }
     }
   });
@@ -58,22 +59,30 @@ const init = (drone, altitude = 2.0) => {
 
 function left() {
   client.left(SPEED);
-  client.stop();
+  client.after(500, () => {
+    client.stop();
+  });
 }
 
 function right() {
   client.right(SPEED);
-  client.stop();
+  client.after(500, () => {
+    client.stop();
+  });
 }
 
 function front() {
   client.front(SPEED);
-  client.stop();
+  client.after(500, () => {
+    client.stop();
+  });
 }
 
 function back() {
   client.back(SPEED);
-  client.stop();
+  client.after(500, () => {
+    client.stop();
+  });
 }
 
 function flip(direction) {
