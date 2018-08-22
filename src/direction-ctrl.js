@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const readline = require('readline');
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode(true);
@@ -6,6 +7,13 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
+
+const ANIMITIONS = [
+'phiM30Deg', 'phi30Deg', 'thetaM30Deg', 'theta30Deg', 'theta20degYaw200deg',
+'theta20degYawM200deg', 'turnaround', 'turnaroundGodown', 'yawShake',
+'yawDance', 'phiDance', 'thetaDance', 'vzDance', 'wave', 'phiThetaMixed',
+'doublePhiThetaMixed', 'flipAhead', 'flipBehind', 'flipLeft', 'flipRight'
+];
 
 let client;
 const SPEED = 0.1;
@@ -49,6 +57,11 @@ const init = (drone, altitude = 2.0) => {
             right();
           }
           break;
+
+        case 'r':
+          random();
+          break;
+
         case 'q':
           client.stop();
           client.land();
@@ -56,6 +69,11 @@ const init = (drone, altitude = 2.0) => {
     }
   });
 };
+
+function random() {
+  const num = _.random(0, 19);
+  client.animate(ANIMITIONS[num], 1000);
+}
 
 function left() {
   client.left(SPEED);
