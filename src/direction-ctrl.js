@@ -1,34 +1,34 @@
 const readline = require('readline');
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
 
 let client;
-const SPEED = 0.05;
+const SPEED = 0.1;
 
 const init = (drone, altitude = 2.0) => {
   client = drone;
+  process.stdin.on('keypress', (str, key) => {
+    if (key.ctrl && key.name === 'c') {
+      process.exit();
+    } else {
 
-  rl.question('Direction(j/k, h/l, q): ', (answer) => {
-    console.log(' =>  =>  => dir:', answer)
-
-    switch(answer) {
-      case 'j':
-        back();
-        break;
-      case 'k':
-        front();
-        break;
-      case 'h':
-        left();
-        break;
-      case 'l':
-        right();
-        break;
-      case 'q':
-        rl.close();
+      switch(str) {
+        case 'j':
+          back();
+          break;
+        case 'k':
+          front();
+          break;
+        case 'h':
+          left();
+          break;
+        case 'l':
+          right();
+          break;
+        case 'q':
+          rl.close();
+      }
     }
   });
 }

@@ -3,11 +3,11 @@ const fs = require("fs");
 const altCtrl = require('./altitude-ctrl');
 const dirCtrl = require('./direction-ctrl');
 
-/*
 const client = arDrone.createClient({
   frameRate: 2,
 });
 
+/*
 function inititateStream() {
   const pngStream = client.getPngStream();
   pngStream.on("data", function(imageData) {
@@ -28,7 +28,6 @@ altCtrl.init(client);
 dirCtrl.init(client);
 
 client.takeoff();
-altCtrl.init(client);
 
 /*
 client
