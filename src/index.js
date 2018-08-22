@@ -1,22 +1,31 @@
-const arDrone = require('ar-drone');
-const client = arDrone.createClient();
-
-// const pngStream = client.getPngStream();
-
+const arDrone = require("ar-drone");
+const fs = require("fs");
 const altCtrl = require('./altitude-ctrl');
 
-altCtrl.init(client);
+const client = arDrone.createClient({
+  frameRate: 2,
+});
+
+function inititateStream() {
+  const pngStream = client.getPngStream();
+  pngStream.on("data", function(imageData) {
+    savePhoto(imageData);
+  });
+}
+
+function savePhoto(imageData) {
+  console.log(imageData);
+  fs.writeFile(`data/logo_${Date.now()}.png`, imageData, "binary", function(err) {
+    if (err) throw err;
+    console.log("File saved.");
+  });
+}
 
 client.takeoff();
+altCtrl.init(client);
 
-// client
-  // .after(3000, function() {
-    // this.clockwise(0.5);
-  // })
-  // .after(3000, function() {
-    // this.animate('flipLeft', 15);
-  // })
-  // .after(1000, function() {
-    // this.stop();
-    // this.land();
-  // });
+client
+  .after(5000, function() {
+    this.stop();
+    this.land();
+  });
