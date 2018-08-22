@@ -19,16 +19,24 @@ const init = (drone, altitude = 2.0) => {
       switch (key.name) {
         case 's':
         case 'j':
-          back();
+          if (key.shift) {
+            flip("Behind");
+          } else {
+            back();
+          }
           break;
         case 'w':
         case 'k':
-          front();
+          if (key.shift) {
+            flip("Ahead");
+          } else {
+            front();
+          }
           break;
         case 'a':
         case 'h':
           if (key.shift) {
-            flipLeft();
+            flip("Left");
           } else {
             left();
           }
@@ -36,7 +44,7 @@ const init = (drone, altitude = 2.0) => {
         case 'd':
         case 'l':
           if (key.shift) {
-            flipRight();
+            flip("Right");
           } else {
             right();
           }
@@ -66,14 +74,6 @@ function front() {
 function back() {
   client.back(SPEED);
   client.stop();
-}
-
-function flipLeft() {
-  flip("Left");
-}
-
-function flipRight() {
-  flip("Right");
 }
 
 function flip(direction) {
